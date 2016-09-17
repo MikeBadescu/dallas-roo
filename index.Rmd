@@ -51,7 +51,7 @@ September 17, 2016
 - Data Science and Economics / Finance consulting services
 
 
-## Summary
+## Summary 
 
 1. R Object Classes
     * S3
@@ -77,7 +77,7 @@ Main Principles:
 - Polymorphism
     + single interface to entities of different data types
 
-## Motivation
+## Motivation {.build}
 
 Setup
 ```{r setup, message=FALSE, warning=FALSE}
@@ -99,7 +99,7 @@ square   <- list(size = 4)
 hexagon  <- list(size = 5)
 ```
 
-## Motivation
+## Motivation {.build}
 
 Size alone is not sufficient:
 
@@ -128,7 +128,7 @@ We can perform similar actions: `print()`, `resize()`, `plot()`
 
 - functions associated with objects are called **methods**
 
-## Motivation
+## Motivation {.build}
 
 Let's implement a print function:
 
@@ -145,7 +145,7 @@ print_rp(triangle)
 
 A readable representation of the object is always welcome!
 
-## Motivation
+## Motivation {.build}
 
 Let's implement `resize()`:
 ```{r}
@@ -162,7 +162,7 @@ print_rp(triangle)  # the original object is unchanged
 
 Or we can also use a **replacement function**:
 ```{r}
-`size<-` <- function(rp, value = 1) {
+`size<-` <- function(rp, value = 1) {   # note the name
     rp$size <- rp$size * value
     rp
 }
@@ -174,7 +174,7 @@ print_rp(triangle_copy)
 
 We modified the original / input object.
 
-## Motivation
+## Motivation {.build}
 
 **Congratulations, we have a rudimentary OO model!**
 
@@ -187,7 +187,7 @@ We modified the original / input object.
     + different elements such as `sides` and `print_rp()`
 - This is **Inheritance**
 
-**I would love to use `print()` instead of `print_rp()`**
+**I would love to use `print()` instead of `print_rp()`!**
 
 - This is **Polymorphism**
 
@@ -212,7 +212,7 @@ attr(triangle, "class") <- "regular_polygon"
 triangle
 ```
 
-## S3 Classes
+## S3 Classes {.build}
 
 Better: use `class()`
 
@@ -269,9 +269,9 @@ We can `print()` the model, even if it is a different object
 print(model)
 ```
 
-#### How does this magic work?
+**How does this magic work?**
 
-## S3 Generic Functions
+## S3 Generic Functions {.build}
 
 Let's look at the code for `print()`
 ```{r}
@@ -286,7 +286,7 @@ From `?UseMethod`:
 to the generic function or of the object supplied as an argument to `UseMethod`
 
 
-## S3 Generic Functions
+## S3 Generic Functions {.build}
 
 - Specific print methods are named `print.class_name()`, etc.
 - `print()` calls the right method based on **the class of the first argument**
@@ -305,7 +305,7 @@ methods(print)
 # ...
 ```
 
-## S3 Example
+## S3 Example {.build}
 
 **Yeah? ... I want a `print()` method too!**
 
@@ -323,7 +323,7 @@ print(triangle)
 
 **Success!**
 
-## S3 Methods
+## S3 Methods {.build}
 
 What methods are available for my `regular_polygon`?
 ```{r}
@@ -338,7 +338,7 @@ Is there a `resize()` generic to take care of the dispatch?
 methods(resize)
 ```
 
-## S3 Methods
+## S3 Methods {.build}
 
 Define the generic (it will overwrite the previous `resize()` function)
 
@@ -375,7 +375,7 @@ Alternative:
 - define `size`
 - define `resize()`and `print()`
 
-## S3 Inheritance
+## S3 Inheritance {.build}
 
 ```{r}
 circle <- list(sides = NA, size = 1)
@@ -383,7 +383,7 @@ class(circle) <- c('circle', 'regular_polygon')
 print(circle)
 ```
 
-That is not right ...
+`circle` inherited everything from `regular_polygon`; define own `print.`
 
 ```{r}
 print.circle <- function(rp) {
@@ -394,7 +394,7 @@ print(circle)
 
 Better!
 
-## S3 Inheritance
+## S3 Inheritance {.build}
 
 Check inheritance
 ```{r}
@@ -402,12 +402,12 @@ inherits(circle, 'circle')
 inherits(circle, 'regular_polygon')
 ```
 
-Resize works by calling the resize of the parent class
+Resize works by calling `resize` of the parent class
 ```{r}
 print(resize(circle, 2))
 ```
 
-## S3: *That's all folks!*
+## S3: *That's all folks!* {.build}
 
 *(there are more details but we skip them today)*
 
@@ -420,7 +420,7 @@ class(model) <- c("Agent Smith", class(model))
 class(model)
 ```
 
-## S3 Problems
+## S3 Problems {.build}
 
 ```{r}
 class(df1)
@@ -469,7 +469,7 @@ setClass(
 )
 ```
 
-## S4 New Instance
+## S4 New Instance {.build}
 
 Use `new()`, must name the arguments
 ```{r}
@@ -494,7 +494,7 @@ circle@size
 slot(circle, 'size')
 ```
 
-## S4 Modifying Slots
+## S4 Modifying Slots {.build}
 
 ```{r}
 circle@size <- 1.7  # you should do this only inside of a class method
@@ -510,7 +510,7 @@ circle@size <- "1.7"
 # is(value, "numeric") is not TRUE
 ```
 
-## S4 Printing
+## S4 Printing {.build}
 
 - S4 printing is using the `show()` method; we need to overwrite it  
 - Use `setMethod()` with a function (which can be anonymous)
@@ -523,12 +523,12 @@ setMethod("show", "Circle", Circle_show)
 print(circle)
 ```
 
-## S4 Validity
+## S4 Validity {.build}
 
 - We want additional constraints, e.g., `@size` should be positive
 - Additional validity is provided by a function we must supply
 - Add validity within `setClass()` or by using `setValidity()`
-    + return either TRUE or an error message
+    + return either `TRUE` or an error message
 ```{r, results='hide'}
 Circle_validity <- function(object) {
     if (object@size < 0) return("Size must be positive")
@@ -544,7 +544,7 @@ circle2 <- new("Circle", size = -5)
 #  invalid class “Circle” object: Size must be positive
 ```
 
-## S4 Validity
+## S4 Validity {.build}
 
 Modifying an existing S4 object is still permitted!!
 ```{r}
@@ -564,7 +564,7 @@ Make the circle nice again
 circle@size <- 1.7
 ```
 
-## S4 Accessors
+## S4 Accessors {.build}
 
 - It's not a good idea to directly modify slots outside the object
 - We will define accessor methods (since we are formal and all)
@@ -583,7 +583,7 @@ setMethod("size", "Circle", Circle_get_size)
 size(circle)
 ```
 
-## S4 Accessors
+## S4 Accessors {.build}
 
 ```{r, results='hide'}
 Circle_set_size <- function(object, value) {
@@ -602,7 +602,7 @@ size(circle) <- 2.5
 size(circle)
 ```
 
-## S4 Inheritance
+## S4 Inheritance {.build}
 
 Let's have `RegularPolygon` inherit from `Circle`
 
@@ -622,7 +622,7 @@ print(triangle)
 ```
 *Bummer!*
 
-## S4 Inheritance
+## S4 Inheritance {.build}
 
 Override `show()` for `RegularPolygon`
 ```{r}
@@ -650,7 +650,7 @@ is(triangle, "Circle")  # R cannot overcome poor design choices
 We could overwrite validity and create more accessors, etc.
 
 
-## S4 Problems
+## S4 Problems {.build}
 
 - Possible conflicts among multiple `setGeneric()` functions
 - Pollution of the namespace with extra generics
@@ -683,7 +683,7 @@ triangle <- expand(triangle, times = 2)  # assume we created an expand method
 - It's not as bad as it seems, lists and data frames copy only the modified
 elements; they point to the old ones until a change is needed.
 
-## Mutability in R
+## Mutability in R {.build}
 
 Except Environments:
 
@@ -698,7 +698,7 @@ ls(my_env)
 my_env$x
 ```
 
-## The Environment Trick
+## The Environment Trick {.build}
 
 - We can set a slot to be an environment
 - Need to define an `initialize()` method, called by `new()`
@@ -715,7 +715,7 @@ setMethod("initialize", "Element",
 )
 ```
 
-## The Environment Trick
+## The Environment Trick {.build}
 
 ```{r}
 el <- new("Element", x = 3)
@@ -725,7 +725,7 @@ print(el@my_env$a)
 ```
 
 
-## Reference Classes (RC)
+## Reference Classes (RC) {.build}
 
 Sometimes we want mutability, e.g., for bidirectional relationships
 
@@ -785,7 +785,7 @@ str(circle)
 print(circle)
 ```
 
-## R6 Basics
+## R6 Basics {.build}
 
 Access the object attributes
 ```{r}
@@ -820,7 +820,7 @@ PrivateCircle <- R6Class(
 )
 ```
 
-## R6 Private Members and Accessors
+## R6 Private Members and Accessors {.build}
 
 ```{r}
 private_circle <- PrivateCircle$new(6.6)
@@ -858,7 +858,7 @@ str(triangle)
 triangle
 ```
 
-## R6 Inheritance
+## R6 Inheritance {.build}
 
 ```{r}
 triangle$size
@@ -866,7 +866,9 @@ triangle$expand(2)
 triangle
 ```
 
-## R6 and the R user
+We modified the original object
+
+## R6 and the R user {.build}
 
 As seen from  Java, Python, etc. ...
 
@@ -891,7 +893,7 @@ triangle$expand(2)
 - Are you calling a function from a list?
 - So, what if you "expand" the triangle, **what do you get back?**
 
-## R6 and the R user
+## R6 and the R user {.build}
 
 Example from the package `openxlsx` (which uses Reference Classes)
 
@@ -909,7 +911,7 @@ names(workbook)   # calls names.Workbook()
 ## [1] "Sheet 1"
 ```
 
-## R6 and the R user
+## R6 and the R user {.build}
 
 Martin Morgan (Bioconductor Project Lead), in reply to a  
 *"I'm a C++/Python developer"* point of view:
@@ -928,21 +930,26 @@ time and memory performance cost)."
 (and change the expectations of your users)."
 
 
-## R Object Classes - Which one to use?
+## R Object Classes - Which one to use? {.build}
 
-- You are using Bioconductor (S4 based) or a similar environment:
-    + Use S4
-- You must have reference objects due to the nature of the data
-    + Use R6 and avoid Reference Classes
-    + Manage user expectations: provide documentation, examples, etc.
-- You do not need reference objects:
-    + Use S3, if you have an option between S3 or S4
-        + Google's R Style Guide advices against using S4
-    + **Better: use packages and a little of S3, e.g. for `print()`**
-        + packages promote modularity and encapsulation
+You are using Bioconductor (S4 based) or a similar environment:  
+
+- Use S4  
+
+You must have reference objects due to the nature of the data  
+
+- Use R6 and avoid Reference Classes  
+- Manage user expectations: provide documentation, examples, etc.  
+
+You do not need reference objects:  
+
+- Use S3, if you have an option between S3 or S4  
+    + Google's R Style Guide advises against using S4  
+- **Better: use packages and a little of S3, e.g. for `print()`**  
+    + packages promote modularity and encapsulation  
 
 
-## R Functions and Coding Patterns
+## R Functions and Coding Patterns {.build}
 
 Experience is:
 
@@ -957,7 +964,7 @@ The R Class Objects are far from perfect. So, what **really** works in R?
 
 *warning: subjective views / experience follows*
 
-## R Coding Style
+## R Coding Style {.build}
 
 - Follow a style guide, the most concise is Hadley's [style guide](http://adv-r.had.co.nz/Style.html)
 - Break complex lines into components and pick meaningful names
@@ -977,7 +984,7 @@ sales_with_zip <- sales[zip5_mask, ]
     + It's about Python, but it applies to R as well
 
 
-## dplyr
+## dplyr {.build}
 
 If you are learning R ... 
 
@@ -1003,7 +1010,7 @@ mtcars %>%
     top_n(1, mpg)                    # top 1 from each group, by mpg
 ```
 
-## dplyr .end of pipe
+## dplyr .end of pipe {.build}
 
 I dislike retyping `%>%` at the end of the line when the workflow changes
 
@@ -1019,7 +1026,7 @@ mtcars %>%
 Git and GitHub work better with fewer line changes
 
 
-## ggplot2
+## ggplot2 {.build}
 
 - Start with the **data** and **aes**thetics, add **geom**s, then make it look nice
 - Add color dimension (continuous or discrete)
@@ -1100,7 +1107,7 @@ that always return the same type: `map_dbl()`, `map_chr()`, etc.
 - The output of pure functions can be cached (*[memoization](https://en.wikipedia.org/wiki/Memoization)*)
     + Immutability => the cache will not be modified by other functions
 
-## Functions
+## Pure Functions {.build}
 
 **Functions => Pure Functions => Functional Programming**
 
