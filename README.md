@@ -1,6 +1,8 @@
 # R Object Classes, Functions and Coding Patterns
 
-Mike Badescu
+@[MikeBadescu](https://twitter.com/MikeBadescu)
+
+HTML Slides on GitHub Pages: <https://mikebadescu.github.io/dallas-roo/>
 
 Dallas R Users Group  
 September 17, 2016
