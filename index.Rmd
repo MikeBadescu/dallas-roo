@@ -662,7 +662,8 @@ We could overwrite validity and create more accessors, etc.
     + made irrelevant if the data type is `list`
     + for data frames, it matters what is inside the data frame
 
-Frank Harrell (author of `Hmisc` and "problems with stepwise regression"):
+[Frank Harrell](http://biostat.mc.vanderbilt.edu/wiki/Main/FrankHarrell) 
+(author of `Hmisc` and "problems with stepwise regression"):
 
 > "If you love computer science more than you value your own time, use S4"
 
@@ -913,7 +914,8 @@ names(workbook)   # calls names.Workbook()
 
 ## R6 and the R user {.build}
 
-Martin Morgan (Bioconductor Project Lead), in reply to a  
+[Martin Morgan](https://www.bioconductor.org/about/core-team/) 
+(Bioconductor Project Lead), in reply to a  
 *"I'm a C++/Python developer"* point of view:
 
 > "R's copy-on-change semantics leads me to expect that
