@@ -1,0 +1,10 @@
+/* Whole document: */
+body{
+  font-family: Source Sance Pro;
+  font-size: 16pt;
+}
+/* Headers */
+h1,h2,h3,h4,h5,h6{
+  font-family: Open Sance;
+  font-size: 24pt;
+}
