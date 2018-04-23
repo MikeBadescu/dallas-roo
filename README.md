@@ -2,8 +2,7 @@
 
 @[MikeBadescu](https://twitter.com/MikeBadescu)
 
-HTML Slides on GitHub Pages: <https://mikebadescu.github.io/dallas-roo/>
+HTML Slides on GitHub Pages: <https://numeract.github.io/dallas-roo/>
 
 Dallas R Users Group  
 September 17, 2016
-

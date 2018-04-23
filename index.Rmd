@@ -30,9 +30,9 @@ output:
 
 @[MikeBadescu](https://twitter.com/MikeBadescu)
 
-HTML Slides on GitHub Pages: <https://mikebadescu.github.io/dallas-roo/>
+HTML Slides on GitHub Pages: <https://numeract.github.io/dallas-roo/>
 
-Source Code on GitHub: <https://github.com/MikeBadescu/dallas-roo>
+Source Code on GitHub: <https://github.com/numeract/dallas-roo>
 
 Dallas R Users Group  
 September 17, 2016
